@@ -1,0 +1,124 @@
+# Agregar de donde son los links
+
+
+Configurar Hora
+
+	yum install -y chrony
+	systemctl start chronyd
+	systemctl status chronyd
+	systemctl enable chronyd
+	timedatectl | grep "NTP synchronized"
+	timedatectl set-ntp yes
+
+
+	nano /etc/chrony.conf
+		server 2.mx.pool.ntp.org
+		server 2.north-america.pool.ntp.org
+		server 3.north-america.pool.ntp.org
+
+
+	systemctl restart chronyd
+
+
+	systemctl status chronyd
+	chronyc tracking
+	chronyc sources
+
+	timedatectl list-timezones
+	timedatectl set-timezone America/Mexico_City
+
+
+Configurar Hostname
+	hostnamectl status
+	hostnamectl set-hostname Luis
+
+
+
+
+https://www.digitalocean.com/community/tutorials/how-to-install-java-on-centos-and-fedora
+Instalar java
+
+	yum install -y wget
+
+	wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u181-b13/96a7b8442fe848ef90c96a2fad6ed6d1/jdk-8u181-linux-x64.rpm"
+	yum localinstall jdk-8u181-linux-x64.rpm
+	rm jdk-8u181-linux-x64.rpm
+
+	whereis java
+	alternatives --config java
+	cd /usr/java
+	cd latest
+	echo "export JAVA_HOME=/usr/java/latest" >> /etc/environment
+
+
+
+
+
+https://www.howtoforge.com/tutorial/centos-apache-maven/
+Instalar maven
+	yum install yum-utils -y
+	cd /usr/local/src
+	ll
+	yum groupinstall "Development Tools" -y
+	wget http://www-eu.apache.org/dist/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz
+	tar -xvzf apache-maven-3.5.4-bin.tar.gz 
+	ll
+	mv apache-maven-3.5.4 apache-maven
+	rm apache-maven-3.5.4-bin.tar.gz 
+
+
+	cd /etc/profile.d/
+	nano maven.sh
+		# Apache Maven Environment Variables
+		# MAVEN_HOME for Maven 1 - M2_HOME for Maven 2
+		export M2_HOME=/usr/local/src/apache-maven
+		export PATH=${M2_HOME}/bin:${PATH}
+
+	 chmod +x maven.sh
+	 ls -la
+	 mvn --version
+
+
+
+
+Instalar python
+
+
+	yum install gcc openssl-devel bzip2-devel libffilibffi-devel -y
+	cd /usr/local/src
+	wget https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tgz
+	tar xvzf Python-3.7.0.tgz 
+	pwd
+	cd Python-3.7.0/
+	ls
+	cat README.rst 
+	./configure
+	make
+	make install
+	python3 version
+
+
+Comandos Linux
+	yum update -y
+	top             
+	cat /proc/cpuinfo       
+	free -m                       
+	free -g
+	env
+
+
+Empaquetar
+
+	vagrant package --output name.box
+
+
+Agregar nuevo usuario
+
+	adduser username
+	passwd username
+	su - username
+	
+Desempaquetar
+	vagrant box add my-box name-of-the-box.box
+	vagrant init my-box
+	vagrant up
